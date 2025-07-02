@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="./assets/favicon.ico" type="image/x-icon">
+    <title>Simulação de pagamento</title>
+</head>
+<body>
+
+    <div class="container">
+    <h1>Descubra quanto pode financiar<br> para comprar o seu imóvel 🏠
+
+</h1>
+    <h2>Favor preencher os dados abaixo:</h2>
+
+    </div>
+
+        <main class="dados">
+            <form action="" method="POST">
+                <label for="nome">Nome completo:</label>
+                <input type="text" id="nome" name="nome"  placeholder="Digite seu nome" required>
+                <span id="erro_nome" style="color: red; font-size: 14px;"></span>
+                
+                <label for="data_nascimento">Data de nascimento:</label>
+                <input type="date" id="data_nascimento" name="data_nascimento" required>
+                <span id="erro_data" style="color: red;"></span>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Digite seu email" required>
+                <span id="erro_email" style="color: red;"></span>
+        <label for="estado_civil">Estado civil:</label>
+            <select id="estado_civil" name="estado_civil" required>
+                <option value="" disabled selected hidden>Selecione</option>
+                <option value="solteiro">Solteiro(a)</option>
+                <option value="casado">Casado(a)</option>
+                <option value="divorciado">Divorciado(a)</option>
+                <option value="viuvo">Viúvo(a)</option>
+                <option value="uniao_estavel">União estável</option>
+            </select>
+                <br>
+
+
+<!-- Campo escondido que será mostrado se "Casado ou união estável" for selecionado -->
+          
+    <div class="nascimento_conjuge" style="display: none;">
+
+       <label for="data_nascimento_conjuge">Data de nascimento:</label> <br>
+                <input type="date" id="data_nascimento_conjuge" name="data_nascimento" required>
+                <span id="erro_data" style="color: red;"></span>
+                <br>
+    </div>  
+
+
+<!-- Campo escondido que será mostrado se "Casado ou união estável" for selecionado -->
+           
+        
+    <div class="renda_conjuge" style="display: none;">
+        <label for="renda_comprovada">Ele(a) possui renda comprovada?</label>  
+        <br>
+        <select id="renda_conjuge" name="renda" required>
+        <option value="" disabled selected hidden>Selecione</option>
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+        </select>
+        <br>
+
+     </div>
+
+<!-- campo escondido se selecionar renda comprovada-->
+     <div class="renda_bruta_conjuge" style="display: none;">
+        <label for="Valor_renda_conjuge">Qual valor da renda bruta mensal?</label><legend>(maior valor do contracheque sem os descontos):</legend> <br>
+        <input type="text" id="valor_renda_conjuge" class="campo-moeda" name="valor" placeholder="Ex: 4.500,00" required>
+        <br>
+
+     </div>
+
+          <label for="filhos">Possui filhos com menos de 18 anos?</label>   
+        
+            <select id="filhos" name="filhos" required>
+            <option value="" disabled selected hidden>Selecione</option>
+            <option value="sim">Sim</option>
+            <option value="nao">Não</option>
+            </select>
+        <br>
+
+        <label for="tipo de renda">Qual o seu tipo de renda:</label>
+        <select id="tipo_renda" name="tipo_renda"required>
+            <option value="" disabled selected hidden>Selecione</option>
+            <option value="assalariado">Carteira assinada</option>
+            <option value="concursado">Concursado(a)</option>
+            <option value="dt">DT</option>
+            <option value="autonomo">Autônomo</option>
+            <option value="pensionista">Pensionista</option>
+            <option value="aposentado">Aposentado</option>
+            <option value="outro">Outro</option>
+        </select>
+        <br>
+        <!-- Campo escondido que será mostrado se "Outro" for selecionado -->
+    <div class="outra_renda_container" style="display: none;">
+        <label for="outro_renda">Informe seu tipo de renda:</label>
+        <br>
+        <input type="text" id="outro_renda" name="outro_renda" placeholder="Digite seu tipo de renda" required>
+        <br>        
+    </div>
+    
+        <label for="tempo-de-serviço-atual">Esta a quanto tempo no serviço atual?</label>
+        
+        <input type="text" id="tempo-de-serviço-atual" name="tempo-de-serviço" placeholder="Ex: 2 anos e 3 meses" required>
+    <br>
+        <label for="valor">Sua renda bruta mensal</label><legend>(maior valor do contracheque sem os descontos):</legend>
+    
+        <input type="text" class="campo-moeda" id="renda_pessoal_valor" name="valor" placeholder="Ex: 4.500,00" required>
+        <br>
+
+        <label for="Valor de FGTS">Valor de FGTS:</label>
+        
+        <input type="text" class="campo-moeda" id="fgts" name="fgts" placeholder="Ex: 20.000,00" required>
+        <br>
+      
+        <label for="Beneficiado">Já foi beneficiado(a) pelo Programa Minha Casa Minha Vida?</label>
+        
+        <select id="beneficio" name="beneficioGoverno" required>
+        <option value="" disabled selected hidden>Selecione</option>
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+        </select>
+    
+        <br>
+
+           <!-- Campo escondido que será mostrado se "sim" for selecionado -->
+    <div class="foi_beneficiado" style="display: none;">
+        <label for="anoBeneficio">Qual ano?</label>
+        <br>
+        <input type="number" id="qual_ano" name="qual_ano" placeholder="Digite o ano" required>
+        <br>        
+    </div>
+
+        
+      
+
+        <label for="residencia">Aonde você mora e trabalha?</label>
+        
+        <input type="text" id="residencia" name="residencia" required>
+        <br>
+
+        <label for="imovel">Possui imóvel com escritura no seu nome?</label>
+        
+        <select id="imovel" name="imovel" required>
+        <option value="" disabled selected hidden>Selecione</option>
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+        </select> 
+
+        <br>
+
+        <label for="tempo-de-serviço">Somando todas as empresas que já trabalhou de carteira assinada, possui mais de 3 anos?</label>
+        
+        <select id="tempo-de-serviço-total" name="tempo-de-serviço" required>
+            <option value="" disabled selected hidden>Selecione</option>
+            <option value="sim">Sim</option>
+            <option value="nao">Não</option>
+        </select>
+        <br>
+
+        <label for="informação">Observação:</label>
+    
+        <textarea id="informação" name="informação" rows="4" cols="50" placeholder="Digite aqui alguma informação adicional ou alguma dúvida."></textarea>
+        <br>
+        <input class="botao" type="button" value="Enviar dados" id="enviar-dados">
+    </form>
+
+    </main>
+
+    <footer>
+        <p>© 2025 Desenvolvido por Lucas Bastos. Todos os direitos reservados.</p>
+</body>
+<script src="script.js"></script>
+</html>
