@@ -41,6 +41,14 @@ const camposMoeda = document.querySelectorAll('.campo-moeda');
     }
   });
 
+  function formatarDataBR(dataISO) {
+  if (!dataISO) return '';
+  const [ano, mes, dia] = dataISO.split('-');
+  return `${dia}/${mes}/${ano}`;
+  }
+
+  
+
     inputEmail.addEventListener('blur', () => {
     const email = inputEmail.value.trim();
 
@@ -154,6 +162,9 @@ teveBeneficio.addEventListener('change', () => {
   });
   });
 
+  
+
+
   document.getElementById('enviar-dados').addEventListener('click', () => {
   const nome = inputNome.value.trim();
   const dataNascimento = inputData.value;
@@ -172,9 +183,14 @@ teveBeneficio.addEventListener('change', () => {
   const tempoServiço = document.getElementById('tempo-de-serviço-atual').value;
   const tempoServiçoTotalInput = document.getElementById('tempo-de-serviço-total');
   const tempoServiçoTotal = tempoServiçoTotalInput?.value === 'sim' ? tempoServiçoTotalInput.value  : 'Não possui mais de 3 anos de serviço';
-  const possuiImóvel = document.getElementById('imovel').value;
+    const possuiImóvel = document.getElementById('imovel').value;
+    const dataNascimentoFormatada = formatarDataBR(dataNascimento);
+    const nascimentoConjugeFormatado = formatarDataBR(nascimentoConjuge);
+    const observacao = document.getElementById('informação').value.trim();
 
-    const mensagem = `Nome: ${nome}\nData de Nascimento: ${dataNascimento}\nEmail: ${email}\nEstado Civil: ${estadoCivilValue}\nPossui Filhos: ${possuiFilhos}\nData de Nascimento do Cônjuge: ${nascimentoConjuge}\nRenda do Cônjuge: ${rendaConjugeValue}\nTipo de Renda: ${tipoRendaValue}\nRenda Pessoal: ${valorRendaPessoal}\nValor de FGTS: ${fgtsValue}\nTeve Benefício: ${teveBeneficioValue}\nCidade que e trabalha: ${CidadeMoraETrabalha}\nAno do benefício: ${anoBeneficioValue}\nTempo de serviço atual: ${tempoServiço}\nTempo de serviço total: ${tempoServiçoTotal}\nPossui Imóvel: ${possuiImóvel}`;
+    
+
+    const mensagem = `Nome: ${nome}\nData de Nascimento: ${dataNascimentoFormatada}\nEmail: ${email}\nEstado Civil: ${estadoCivilValue}\nPossui Filhos: ${possuiFilhos}\nData de Nascimento do Cônjuge: ${nascimentoConjugeFormatado}\nRenda do Cônjuge: ${rendaConjugeValue}\nTipo de Renda: ${tipoRendaValue}\nRenda Pessoal: ${valorRendaPessoal}\nValor de FGTS: ${fgtsValue}\nTeve Benefício: ${teveBeneficioValue}\nCidade que mora e trabalha: ${CidadeMoraETrabalha}\nAno do benefício: ${anoBeneficioValue}\nTempo de serviço atual: ${tempoServiço}\nTempo de serviço total: ${tempoServiçoTotal}\nPossui Imóvel: ${possuiImóvel}\nObservação: ${observacao}`;
     
     const textoFinal = encodeURIComponent(mensagem);
 
