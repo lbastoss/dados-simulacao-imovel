@@ -90,20 +90,17 @@ input,select, textarea {
 }
 
 body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('https://product-hub-prd.madeiramadeira.com.br/761588579/images/227b7cb1-ec13-441c-ab36-59b454523b532d1870dbstandardresolution.jpg?width=700&canvas=1:1&bg-color=FFF') no-repeat center center;
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    filter: blur(1px);
-    opacity: 0.7;
-    z-index: -1;
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url('https://product-hub-prd.madeiramadeira.com.br/761588579/images/227b7cb1-ec13-441c-ab36-59b454523b532d1870dbstandardresolution.jpg?width=700&canvas=1:1&bg-color=FFF');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain; /* <- evita corte e mantém proporção */
+  background-color: #f4f4f4; /* cor de fundo caso sobre espaço */
+  filter: blur(1px);
+  opacity: 0.7;
+  z-index: -1;
 }
 
 footer {
