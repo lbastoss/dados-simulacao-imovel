@@ -12,6 +12,27 @@ body, html {
     min-height: 100vh;
 }
 
+p {
+    font-size: 20px;
+    line-height: 1.5;
+    margin: 5px 0;
+    text-align: center;
+    text-shadow: 3px 4px 4px rgba(61,95,61,0.6);
+    font-weight: bold;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+
+
+
+}
+
+.preencher {
+    font-size: 10x;
+    text-decoration: underline;
+    
+}
 img {
     max-width: 100%;
     height: auto;
@@ -34,19 +55,6 @@ form {
 -webkit-box-shadow: -1px -1px 11px 2px rgba(53,154,56,0.43);
 -moz-box-shadow: -1px -1px 11px 2px rgba(53,154,56,0.43);
     gap: 5px;
-}
-
-h1 {
-    font-size: 22px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    text-align: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    color: #000;
-    text-shadow: 3px 4px 4px rgba(61,95,61,0.6);
 }
 
 h2 {
