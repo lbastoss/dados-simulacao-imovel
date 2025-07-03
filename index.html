@@ -19,7 +19,7 @@
 
         <main class="dados">
             <form action="" method="POST">
-                <label for="nome">Nome completo:</label>
+                <label for="nome">Nome e sobrenome:</label>
                 <input type="text" id="nome" name="nome"  placeholder="Digite seu nome" required>
                 <span id="erro_nome" style="color: red; font-size: 14px;"></span>
                 
@@ -30,6 +30,7 @@
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" placeholder="Digite seu email" required>
                 <span id="erro_email" style="color: red;"></span>
+
         <label for="estado_civil">Estado civil:</label>
             <select id="estado_civil" name="estado_civil" required>
                 <option value="" disabled selected hidden>Selecione</option>
@@ -46,7 +47,7 @@
           
     <div class="nascimento_conjuge" style="display: none;">
 
-       <label for="data_nascimento_conjuge">Data de nascimento:</label> <br>
+       <label for="data_nascimento_conjuge">Data de nascimento do cônjuge:</label> <br>
                 <input type="date" id="data_nascimento_conjuge" name="data_nascimento" required>
                 <span id="erro_data" style="color: red;"></span>
                 <br>
