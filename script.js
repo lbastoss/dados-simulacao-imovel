@@ -54,12 +54,7 @@ inputData.addEventListener('input', (e) => {
   e.target.value = valor;
 });
 
-// Formata data de AAAA-MM-DD para DD/MM/AAAA
-function formatarDataBR(dataISO) {
-  if (!dataISO) return '';
-  const [ano, mes, dia] = dataISO.split('-');
-  return `${dia}/${mes}/${ano}`;
-}
+
 
 // Validação de e-mail
 inputEmail.addEventListener('blur', () => {
@@ -163,11 +158,11 @@ document.getElementById('enviar-dados').addEventListener('click', () => {
 
   const mensagem = `
 Nome: ${nome}
-Data de nascimento: ${formatarDataBR(dataNascimento)}
+Data de nascimento: ${dataNascimento}
 Email: ${email}
 Estado civil: ${estadoCivilValue}
 Possui filhos?: ${possuiFilhos}
-Data de nascimento do cônjuge: ${formatarDataBR(nascimentoConjuge)}
+Data de nascimento do cônjuge: ${nascimentoConjuge}
 Renda do cônjuge: ${rendaConjugeValue}
 Tipo de renda: ${tipoRendaValue}
 Renda pessoal: ${valorRendaPessoal}
