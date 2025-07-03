@@ -25,16 +25,33 @@ const camposMoeda = document.querySelectorAll('.campo-moeda');
 
 // Validação de idade mínima (18 anos)
 inputData.addEventListener('change', () => {
-  const dataNascimento = new Date(inputData.value);
+  const partes = inputData.value.split('/');
+  if (partes.length !== 3) return;
+
+  const [dia, mes, ano] = partes;
+  const dataNascimento = new Date(`${ano}-${mes}-${dia}`);
   const hoje = new Date();
   const dataLimite = new Date(hoje.getFullYear() - 18, hoje.getMonth(), hoje.getDate());
 
-  if (dataNascimento > dataLimite) {
+  if (isNaN(dataNascimento.getTime()) || dataNascimento > dataLimite) {
     erroData.textContent = 'Você precisa ter 18 anos ou mais.';
     inputData.value = '';
   } else {
     erroData.textContent = '';
   }
+});
+
+// Máscara de data no formato DD/MM/AAAA
+inputData.addEventListener('input', (e) => {
+  let valor = e.target.value.replace(/\D/g, ''); // Remove tudo que não é dígito
+
+  if (valor.length >= 3 && valor.length <= 4) {
+    valor = valor.replace(/^(\d{2})(\d{1,2})/, '$1/$2');
+  } else if (valor.length > 4) {
+    valor = valor.replace(/^(\d{2})(\d{2})(\d{1,4})/, '$1/$2/$3');
+  }
+
+  e.target.value = valor;
 });
 
 // Formata data de AAAA-MM-DD para DD/MM/AAAA
