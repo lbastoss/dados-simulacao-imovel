@@ -4,7 +4,7 @@
 1. Crie uma Google Planilha nova (ou use uma existente).
 2. Extensões → Apps Script.
 3. Apague o conteúdo padrão e cole o `Codigo.gs`.
-4. Salve. Rode a função `testeCriarCabecalho` uma vez (menu de funções no topo) só para autorizar as permissões — confira se a aba "Respostas" foi criada com o cabeçalho em negrito.
+4. Salve. Rode a função `testeEnvio` uma vez (menu de funções no topo) para autorizar planilha e e-mail — confira se a aba "Respostas v2" recebeu a linha de teste e se o e-mail chegou.
 5. Implantar → Nova implantação → tipo "App da Web".
    - Executar como: **Eu**
    - Quem tem acesso: **Qualquer pessoa**

@@ -3,234 +3,310 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#16233d" />
+  <title>Simulação de Financiamento | Lucas Bastos</title>
+  <meta name="description" content="Preencha em poucos minutos e receba sua simulação de financiamento pelo Minha Casa Minha Vida." />
+
+  <!-- Prévia do link no WhatsApp -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Simule seu financiamento | Minha Casa Minha Vida" />
+  <meta property="og:description" content="Preencha em poucos minutos e receba sua simulação com o corretor Lucas Bastos." />
+  <meta property="og:image" content="https://lbastoss.github.io/dados-simulacao-imovel/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap"
     rel="stylesheet" />
-  <title>Simulação de Financiamento | Lucas Bastos</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
 
+  <!-- Barra de progresso fixa no topo -->
+  <div class="progresso" aria-hidden="true">
+    <div class="progresso-preenchido" id="barra-progresso"></div>
+  </div>
+
   <main class="pagina">
 
     <!-- ===================== TELA 1: FORMULÁRIO ===================== -->
-    <section class="cartao" id="tela-formulario">
+    <section id="tela-formulario">
 
-      <header class="topo">
-        <p class="elogio">Minha Casa Minha Vida</p>
+      <header class="topo surgir">
+        <p class="selo">Minha Casa Minha Vida</p>
         <h1>Simule seu financiamento</h1>
-        <p class="subtitulo">Responda as perguntas abaixo e descubra como pode ficar a compra do seu imóvel.
-        </p>
+        <p class="subtitulo">Responda as perguntas abaixo e descubra como pode ficar a compra do seu imóvel.</p>
+        <ul class="vantagens">
+          <li>Leva ~3 minutos</li>
+          <li>Sem compromisso</li>
+          <li>Dados protegidos</li>
+        </ul>
       </header>
-
-      <div class="progresso" aria-hidden="true">
-        <div class="progresso-trilho">
-          <div class="progresso-preenchido" id="barra-progresso"></div>
-        </div>
-        <span class="progresso-texto" id="texto-progresso">0% preenchido</span>
-      </div>
 
       <div class="aviso-erro" id="aviso-geral" role="alert" hidden></div>
 
-      <form id="form-simulacao" novalidate>
+      <form id="form-simulacao" novalidate autocomplete="on">
 
-        <!-- SEÇÃO 1 -->
-        <fieldset class="secao">
-          <legend><span class="numero">01</span> Dados pessoais</legend>
+        <!-- Campo isca contra robôs (fica invisível para pessoas) -->
+        <div class="isca" aria-hidden="true">
+          <label for="website">Não preencha</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+        </div>
 
-          <div class="campo">
-            <label for="nome">Nome e sobrenome</label>
+        <!-- ============ SEÇÃO 1 ============ -->
+        <fieldset class="secao surgir" data-titulo="Dados pessoais">
+          <legend><span class="numero">1</span> Dados pessoais</legend>
+
+          <div class="campo" data-req data-resumo="Nome">
+            <label for="nome">Nome completo</label>
             <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo" autocomplete="name"
-              required />
-            <span class="erro" id="erro-nome"></span>
+              autocapitalize="words" />
+            <span class="erro"></span>
           </div>
 
-          <div class="linha">
-            <div class="campo">
-              <label for="data_nascimento">Data de nascimento</label>
-              <input type="text" inputmode="numeric" id="data_nascimento" name="data_nascimento"
-                placeholder="DD/MM/AAAA" maxlength="10" required />
-              <span class="erro" id="erro-data"></span>
-            </div>
+          <div class="campo" data-req data-resumo="Nascimento" data-tipo="data">
+            <label for="data_nascimento">Data de nascimento</label>
+            <input type="text" inputmode="numeric" id="data_nascimento" name="data_nascimento"
+              placeholder="DD/MM/AAAA" maxlength="10" autocomplete="bday" />
+            <span class="erro"></span>
+          </div>
 
-            <div class="campo">
-              <label for="estado_civil">Estado civil</label>
-              <select id="estado_civil" name="estado_civil" required>
-                <option value="" disabled selected hidden>Selecione</option>
-                <option value="solteiro">Solteiro(a)</option>
-                <option value="casado">Casado(a)</option>
-                <option value="uniao_estavel">União estável</option>
-                <option value="divorciado">Divorciado(a)</option>
-                <option value="viuvo">Viúvo(a)</option>
-              </select>
+          <div class="campo" data-req data-resumo="Estado civil">
+            <span class="rotulo">Estado civil</span>
+            <div class="opcoes" data-name="estado_civil"
+              data-opcoes="solteiro:Solteiro(a)|casado:Casado(a)|uniao_estavel:União estável|divorciado:Divorciado(a)|viuvo:Viúvo(a)">
+            </div>
+            <span class="erro"></span>
+          </div>
+
+          <div class="campo" data-req data-resumo="Filhos menores de 18">
+            <span class="rotulo">Possui filhos com menos de 18 anos?</span>
+            <div class="opcoes" data-name="filhos" data-opcoes="sim:Sim|nao:Não"></div>
+            <span class="erro"></span>
+          </div>
+        </fieldset>
+
+        <!-- ============ SEÇÃO 2 ============ -->
+        <fieldset class="secao surgir" data-titulo="Renda — titular">
+          <legend><span class="numero">2</span> Renda e trabalho</legend>
+
+          <div class="campo" data-req data-resumo="Profissão">
+            <label for="profissao">Qual a sua profissão?</label>
+            <input type="text" id="profissao" name="profissao" placeholder="Ex: Auxiliar administrativo"
+              autocomplete="organization-title" />
+            <span class="erro"></span>
+          </div>
+
+          <div class="campo" data-req data-resumo="Tipo de renda">
+            <span class="rotulo">Qual o seu tipo de renda?</span>
+            <div class="opcoes" data-name="tipo_renda"
+              data-opcoes="assalariado:Carteira assinada|concursado:Concursado(a)|dt:DT (designação temporária)|autonomo:Autônomo|empresario:Empresário|aposentado:Aposentado|pensionista:Pensionista|outro:Outro">
+            </div>
+            <span class="erro"></span>
+          </div>
+
+          <div class="condicional" data-mostrar="tipo_renda=outro">
+            <div class="campo" data-req data-resumo="Qual tipo de renda">
+              <label for="outro_renda">Informe seu tipo de renda</label>
+              <input type="text" id="outro_renda" name="outro_renda" placeholder="Digite seu tipo de renda" />
+              <span class="erro"></span>
             </div>
           </div>
 
-          <!-- Bloco do cônjuge -->
-          <div class="bloco-condicional" id="bloco-conjuge" hidden>
-
-            <p class="rotulo-bloco">Dados do cônjuge</p>
-
-            <div class="campo">
-              <label for="nome_conjuge">Nome do cônjuge</label>
-              <input type="text" id="nome_conjuge" name="nome_conjuge" placeholder="Digite o nome completo"
-                autocomplete="off" />
+          <div class="condicional" data-mostrar="tipo_renda=autonomo,empresario">
+            <div class="campo" data-req data-resumo="Declarou IR este ano">
+              <span class="rotulo">Você declarou imposto de renda este ano?</span>
+              <div class="opcoes" data-name="declarou_ir" data-opcoes="sim:Sim|nao:Não"></div>
+              <span class="erro"></span>
             </div>
+          </div>
 
-            <div class="campo">
-              <label for="data_nascimento_conjuge">Data de nascimento do cônjuge</label>
-              <input type="text" inputmode="numeric" id="data_nascimento_conjuge" name="data_nascimento_conjuge"
-                placeholder="DD/MM/AAAA" maxlength="10" />
-              <span class="erro" id="erro-data-conjuge"></span>
+          <div class="condicional" data-mostrar="tipo_renda=assalariado,concursado,dt,autonomo,empresario,outro">
+            <div class="campo" data-req data-resumo="Tempo no serviço atual">
+              <label for="tempo_servico_atual">Trabalha há quanto tempo no serviço atual?</label>
+              <input type="text" id="tempo_servico_atual" name="tempo_servico_atual"
+                placeholder="Ex: 2 anos e 3 meses" />
+              <span class="erro"></span>
             </div>
+          </div>
 
-            <div class="campo">
-              <label for="renda_conjuge">O cônjuge possui renda comprovada?</label>
-              <select id="renda_conjuge" name="renda_conjuge">
-                <option value="" disabled selected hidden>Selecione</option>
-                <option value="sim">Sim</option>
-                <option value="nao">Não</option>
-              </select>
-            </div>
+          <div class="campo" data-req data-resumo="Mais de 3 anos de carteira (somando)">
+            <span class="rotulo">Somando todas as carteiras assinadas, possui mais de 3 anos?</span>
+            <div class="opcoes" data-name="tempo_carteira_total" data-opcoes="sim:Sim|nao:Não"></div>
+            <span class="erro"></span>
+          </div>
 
-            <!-- Aparece se o cônjuge tem renda -->
-            <div class="bloco-condicional" id="bloco-renda-conjuge" hidden>
-              <div class="linha">
-                <div class="campo">
-                  <label for="valor_renda_conjuge">Renda bruta mensal do cônjuge</label>
-                  <span class="dica">Maior valor do contracheque, sem descontos</span>
-                  <input type="text" inputmode="numeric" class="campo-moeda" id="valor_renda_conjuge"
-                    name="valor_renda_conjuge" placeholder="Ex: 4.500,00" />
+          <div class="campo" data-req data-resumo="Renda bruta" data-tipo="moeda" data-soma="bruta">
+            <label for="renda_bruta">Sua renda bruta mensal</label>
+            <span class="dica">Maior valor do contracheque, <strong>antes</strong> dos descontos</span>
+            <div class="moeda"><span>R$</span><input type="text" inputmode="numeric" id="renda_bruta"
+                name="renda_bruta" placeholder="0,00" /></div>
+            <span class="erro"></span>
+          </div>
+
+          <div class="campo" data-req data-resumo="Renda líquida" data-tipo="moeda" data-soma="liquida">
+            <label for="renda_liquida">Sua renda líquida mensal</label>
+            <span class="dica">Valor que cai na sua conta, <strong>depois</strong> dos descontos</span>
+            <div class="moeda"><span>R$</span><input type="text" inputmode="numeric" id="renda_liquida"
+                name="renda_liquida" placeholder="0,00" /></div>
+            <span class="erro"></span>
+          </div>
+
+          <div class="campo" data-req data-resumo="FGTS" data-tipo="moeda" data-soma="fgts">
+            <label for="fgts">Seu saldo de FGTS</label>
+            <div class="moeda"><span>R$</span><input type="text" inputmode="numeric" id="fgts" name="fgts"
+                placeholder="0,00" /></div>
+            <label class="marcar"><input type="checkbox" data-alternativa="Não sei" /> <span>Não sei o valor</span></label>
+            <span class="erro"></span>
+          </div>
+        </fieldset>
+
+        <!-- ============ SEÇÃO 3 ============ -->
+        <fieldset class="secao surgir" data-titulo="Composição de renda">
+          <legend><span class="numero">3</span> Composição de renda</legend>
+
+          <div class="campo" data-req data-resumo="Vai compor renda">
+            <span class="rotulo" id="rotulo-compor">Vai somar renda com outra pessoa para financiar?</span>
+            <span class="dica">Ex.: cônjuge, pai, mãe ou irmão. Somar rendas aumenta o valor que pode ser
+              financiado.</span>
+            <div class="opcoes" data-name="compor_renda" data-opcoes="sim:Sim|nao:Não"></div>
+            <span class="erro"></span>
+          </div>
+
+          <div class="condicional" data-mostrar="compor_renda=sim">
+            <div class="bloco">
+
+              <div class="condicional" data-mostrar="estado_civil=solteiro,divorciado,viuvo">
+                <div class="campo" data-req data-resumo="Parentesco">
+                  <span class="rotulo">Quem vai compor renda com você?</span>
+                  <div class="opcoes" data-name="comp_parentesco"
+                    data-opcoes="Namorado(a)/Noivo(a)|Pai/Mãe|Irmão(ã)|Filho(a)|Outro"></div>
+                  <span class="erro"></span>
                 </div>
+              </div>
 
-                <div class="campo">
-                  <label for="fgts_conjuge">Saldo de FGTS do cônjuge</label>
-                  <input type="text" inputmode="numeric" class="campo-moeda" id="fgts_conjuge" name="fgts_conjuge"
-                    placeholder="Ex: 7.000,00" />
+              <div class="campo" data-req data-resumo="Nome">
+                <label for="comp_nome" id="rotulo-comp-nome">Nome completo da pessoa</label>
+                <input type="text" id="comp_nome" name="comp_nome" placeholder="Digite o nome completo"
+                  autocomplete="off" autocapitalize="words" />
+                <span class="erro"></span>
+              </div>
+
+              <div class="campo" data-req data-resumo="Nascimento" data-tipo="data">
+                <label for="comp_data_nascimento">Data de nascimento</label>
+                <input type="text" inputmode="numeric" id="comp_data_nascimento" name="comp_data_nascimento"
+                  placeholder="DD/MM/AAAA" maxlength="10" autocomplete="off" />
+                <span class="erro"></span>
+              </div>
+
+              <div class="campo" data-req data-resumo="Tipo de renda">
+                <span class="rotulo">Tipo de renda</span>
+                <div class="opcoes" data-name="comp_tipo_renda"
+                  data-opcoes="assalariado:Carteira assinada|concursado:Concursado(a)|dt:DT|autonomo:Autônomo|empresario:Empresário|aposentado:Aposentado|pensionista:Pensionista|outro:Outro">
+                </div>
+                <span class="erro"></span>
+              </div>
+
+              <div class="campo" data-req data-resumo="Mais de 3 anos de carteira (somando)">
+                <span class="rotulo">Somando as carteiras assinadas, possui mais de 3 anos?</span>
+                <div class="opcoes" data-name="comp_tempo_carteira_total" data-opcoes="sim:Sim|nao:Não"></div>
+                <span class="erro"></span>
+              </div>
+
+              <div class="campo" data-req data-resumo="Renda bruta" data-tipo="moeda" data-soma="bruta">
+                <label for="comp_renda_bruta">Renda bruta mensal</label>
+                <span class="dica">Maior valor do contracheque, <strong>antes</strong> dos descontos</span>
+                <div class="moeda"><span>R$</span><input type="text" inputmode="numeric" id="comp_renda_bruta"
+                    name="comp_renda_bruta" placeholder="0,00" /></div>
+                <span class="erro"></span>
+              </div>
+
+              <div class="campo" data-req data-resumo="Renda líquida" data-tipo="moeda" data-soma="liquida">
+                <label for="comp_renda_liquida">Renda líquida mensal</label>
+                <span class="dica">Valor que cai na conta, <strong>depois</strong> dos descontos</span>
+                <div class="moeda"><span>R$</span><input type="text" inputmode="numeric" id="comp_renda_liquida"
+                    name="comp_renda_liquida" placeholder="0,00" /></div>
+                <span class="erro"></span>
+              </div>
+
+              <div class="campo" data-req data-resumo="FGTS" data-tipo="moeda" data-soma="fgts">
+                <label for="comp_fgts">Saldo de FGTS</label>
+                <div class="moeda"><span>R$</span><input type="text" inputmode="numeric" id="comp_fgts"
+                    name="comp_fgts" placeholder="0,00" /></div>
+                <label class="marcar"><input type="checkbox" data-alternativa="Não sei" /> <span>Não sei o valor</span></label>
+                <span class="erro"></span>
+              </div>
+
+              <div class="totais" aria-live="polite">
+                <p class="totais-titulo">Renda somada</p>
+                <div class="totais-grade">
+                  <div><span>Bruta</span><strong id="total-bruta">R$ 0,00</strong></div>
+                  <div><span>Líquida</span><strong id="total-liquida">R$ 0,00</strong></div>
                 </div>
               </div>
             </div>
           </div>
-
-          <div class="campo">
-            <label for="filhos">Possui filhos com menos de 18 anos?</label>
-            <select id="filhos" name="filhos" required>
-              <option value="" disabled selected hidden>Selecione</option>
-              <option value="sim">Sim</option>
-              <option value="nao">Não</option>
-            </select>
-          </div>
         </fieldset>
 
-        <!-- SEÇÃO 2 -->
-        <fieldset class="secao">
-          <legend><span class="numero">02</span> Renda e trabalho</legend>
+        <!-- ============ SEÇÃO 4 ============ -->
+        <fieldset class="secao surgir" data-titulo="Imóvel e situação">
+          <legend><span class="numero">4</span> Imóvel e situação</legend>
 
-          <div class="campo">
-            <label for="profissao">Qual a sua profissão?</label>
-            <input type="text" id="profissao" name="profissao" placeholder="Digite sua profissão" required />
-          </div>
-
-          <div class="campo">
-            <label for="tipo_renda">Qual o seu tipo de renda?</label>
-            <select id="tipo_renda" name="tipo_renda" required>
-              <option value="" disabled selected hidden>Selecione</option>
-              <option value="assalariado">Carteira assinada</option>
-              <option value="concursado">Concursado(a)</option>
-              <option value="dt">DT</option>
-              <option value="autonomo">Autônomo</option>
-              <option value="empresario">Empresário</option>
-              <option value="pensionista">Pensionista</option>
-              <option value="aposentado">Aposentado</option>
-              <option value="outro">Outro</option>
-            </select>
-          </div>
-
-          <div class="bloco-condicional" id="bloco-outra-renda" hidden>
-            <div class="campo">
-              <label for="outro_renda">Informe seu tipo de renda</label>
-              <input type="text" id="outro_renda" name="outro_renda" placeholder="Digite seu tipo de renda" />
-            </div>
-          </div>
-
-          <div class="bloco-condicional" id="bloco-ir" hidden>
-            <div class="campo">
-              <label for="declarou_ir">Você declarou imposto de renda esse ano?</label>
-              <select id="declarou_ir" name="declarou_ir">
-                <option value="" disabled selected hidden>Selecione</option>
-                <option value="sim">Sim</option>
-                <option value="nao">Não</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="linha">
-            <div class="campo">
-              <label for="tempo_servico_atual">Trabalha há quanto tempo no serviço atual?</label>
-              <input type="text" id="tempo_servico_atual" name="tempo_servico_atual" placeholder="Ex: 2 anos e 3 meses"
-                required />
-            </div>
-
-            <div class="campo">
-              <label for="tempo_carteira_total">Somando todas as carteiras assinadas, possui mais de 3 anos?</label>
-              <select id="tempo_carteira_total" name="tempo_carteira_total" required>
-                <option value="" disabled selected hidden>Selecione</option>
-                <option value="sim">Sim</option>
-                <option value="nao">Não</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="linha">
-            <div class="campo">
-              <label for="renda_pessoal">Sua renda bruta mensal</label>
-              <span class="dica">Maior valor do contracheque, sem descontos</span>
-              <input type="text" inputmode="numeric" class="campo-moeda" id="renda_pessoal" name="renda_pessoal"
-                placeholder="Ex: 4.500,00" required />
-            </div>
-
-            <div class="campo">
-              <label for="fgts">Seu saldo de FGTS</label>
-              <input type="text" inputmode="numeric" class="campo-moeda" id="fgts" name="fgts"
-                placeholder="Ex: 7.000,00" required />
-            </div>
-          </div>
-        </fieldset>
-
-        <!-- SEÇÃO 3 -->
-        <fieldset class="secao">
-          <legend><span class="numero">03</span> Imóvel</legend>
-
-          <div class="campo">
+          <div class="campo" data-req data-resumo="Cidade (mora e trabalha)">
             <label for="residencia">Em qual cidade você mora e trabalha?</label>
-            <input type="text" id="residencia" name="residencia" placeholder="Ex: Serra/ES" required />
+            <input type="text" id="residencia" name="residencia" placeholder="Ex: Serra/ES"
+              autocomplete="address-level2" />
+            <span class="erro"></span>
           </div>
 
-          <div class="campo">
-            <label for="imovel">Possui imóvel com escritura no seu nome?</label>
-            <select id="imovel" name="imovel" required>
-              <option value="" disabled selected hidden>Selecione</option>
-              <option value="sim">Sim</option>
-              <option value="nao">Não</option>
-            </select>
+          <div class="campo" data-req data-resumo="Imóvel com escritura no nome">
+            <span class="rotulo">Você <span class="so-compor">ou quem vai compor renda</span> tem imóvel com
+              escritura no nome?</span>
+            <div class="opcoes" data-name="imovel" data-opcoes="sim:Sim|nao:Não"></div>
+            <span class="erro"></span>
+          </div>
+
+          <div class="campo" data-req data-resumo="Já teve financiamento ou subsídio">
+            <span class="rotulo">Você <span class="so-compor">ou quem vai compor renda</span> já teve financiamento
+              habitacional ou recebeu subsídio do governo?</span>
+            <div class="opcoes" data-name="financiamento_anterior" data-opcoes="sim:Sim|nao:Não"></div>
+            <span class="erro"></span>
+          </div>
+
+          <div class="campo" data-req data-resumo="Restrição no nome (SPC/Serasa)">
+            <span class="rotulo">Tem alguma restrição no nome (SPC/Serasa)?</span>
+            <div class="opcoes" data-name="restricao" data-opcoes="sim:Sim|nao:Não|nao_sei:Não sei"></div>
+            <span class="erro"></span>
+          </div>
+
+          <div class="campo" data-req data-resumo="Valor para entrada" data-tipo="moeda">
+            <label for="entrada">Quanto você tem disponível para a entrada?</label>
+            <span class="dica">Sem contar o FGTS</span>
+            <div class="moeda"><span>R$</span><input type="text" inputmode="numeric" id="entrada" name="entrada"
+                placeholder="0,00" /></div>
+            <label class="marcar"><input type="checkbox" data-alternativa="Não tem" /> <span>Não tenho valor para
+                entrada</span></label>
+            <span class="erro"></span>
           </div>
         </fieldset>
 
-        <!-- SEÇÃO 4 -->
-        <fieldset class="secao">
-          <legend><span class="numero">04</span> Observações</legend>
+        <!-- ============ SEÇÃO 5 ============ -->
+        <fieldset class="secao surgir" data-titulo="Observação">
+          <legend><span class="numero">5</span> Observações</legend>
 
-          <div class="campo">
-            <label for="observacao">Alguma informação adicional ou dúvida?</label>
-            <textarea id="observacao" name="observacao" rows="4" placeholder="Opcional"></textarea>
+          <div class="campo" data-resumo="Observação">
+            <label for="observacao">Alguma informação adicional ou dúvida? <em>(opcional)</em></label>
+            <textarea id="observacao" name="observacao" rows="3"
+              placeholder="Ex: prefiro apartamento na região de Laranjeiras"></textarea>
           </div>
         </fieldset>
 
         <button type="submit" class="botao" id="botao-enviar">
+          <span class="giro" aria-hidden="true"></span>
           <span id="botao-texto">Enviar para simulação</span>
         </button>
 
@@ -239,22 +315,26 @@
     </section>
 
     <!-- ===================== TELA 2: SUCESSO ===================== -->
-    <section class="cartao tela-sucesso" id="tela-sucesso" hidden>
-      <div class="icone-sucesso" aria-hidden="true">✓</div>
+    <section class="tela-sucesso" id="tela-sucesso" hidden>
+      <svg class="icone-sucesso" viewBox="0 0 52 52" aria-hidden="true">
+        <circle cx="26" cy="26" r="24" />
+        <path d="M15 27l7 7 15-16" />
+      </svg>
       <h1>Informações recebidas!</h1>
       <p class="subtitulo">
         Em breve o corretor <strong>Lucas Bastos</strong> vai dar continuidade ao seu atendimento
         e te trazer os detalhes da sua simulação de financiamento.
       </p>
-      <a href="#" class="botao botao-secundario" id="link-whatsapp" target="_blank" rel="noopener">
-        Falar agora com Lucas no WhatsApp
+      <a href="#" class="botao botao-whatsapp" id="link-whatsapp" target="_blank" rel="noopener">
+        Avisar Lucas no WhatsApp
       </a>
     </section>
 
   </main>
 
   <footer>
-    <p>© 2026 Desenvolvido por Lucas Bastos. Todos os direitos reservados.</p>
+    <p>Lucas Bastos · Corretor de imóveis</p>
+    <p>© 2026 Todos os direitos reservados.</p>
   </footer>
 
   <script src="script.js"></script>

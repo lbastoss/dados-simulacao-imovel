@@ -1,48 +1,27 @@
-# 🏠 Simulador de Financiamento Imobiliário
+# 🏠 Formulário de Simulação de Financiamento (MCMV)
 
-Este é um projeto prático desenvolvido para otimizar o processo de coleta de dados de clientes interessados em financiamento habitacional. A ferramenta atua como um formulário inteligente que valida informações e as envia formatadas diretamente para o consultor via WhatsApp, agilizando o atendimento e garantindo que nenhum dado crucial seja esquecido.
+Formulário web para o cliente informar, pelo celular, os dados que o corretor precisa para fazer uma simulação de financiamento pelo Minha Casa Minha Vida — sem troca de mensagens perguntando item por item.
 
-## 🧾 Visão Geral
+**Site:** https://lbastoss.github.io/dados-simulacao-imovel/
 
-- **Foco Principal**: Automação de coleta de dados para corretagem imobiliária.
-- **UX Dinâmica**: O formulário se adapta conforme as respostas (ex: exibe campos de cônjuge apenas se necessário).
-- **Validações**: Verificação de idade mínima, máscaras de moeda e data em tempo real.
-- **Integração**: Conexão direta com API do WhatsApp para envio de leads qualificados.
+## Como funciona
 
-## 🚀 Tecnologias e Ferramentas
+1. O cliente preenche o formulário (≈3 minutos).
+2. Os dados vão para um Google Apps Script, que grava uma linha na planilha e envia um **e-mail em texto** com tudo organizado por seção, já com idade calculada e **renda somada** quando há composição de renda.
+3. Se a conexão falhar, o cliente pode enviar tudo pelo WhatsApp com um clique.
 
-- **HTML5**: Estrutura semântica do formulário.
-- **CSS3 (Custom Properties & Flexbox)**: Design responsivo com efeitos de desfoque (blur) e estilização personalizada para melhor experiência do usuário.
-- **JavaScript (Vanilla)**: Lógica de negócio pura, sem frameworks, focada em performance e manipulação de DOM.
-- **Google Fonts (Montserrat)**: Tipografia moderna para leitura clara.
-- **Regex (Expressões Regulares)**: Utilizadas para máscaras de entrada (CPF/Moeda/Data) e restrição de caracteres em campos de nome.
+## Funcionalidades
 
-## ⚙️ Funcionalidades Principais
+- Perguntas em botões (Sim/Não, tipo de renda etc.), mais rápidas no celular que listas.
+- Blocos que abrem conforme a resposta: composição de renda, IR para autônomo/empresário, outro tipo de renda.
+- Renda bruta e líquida, FGTS com opção "Não sei", entrada com opção "Não tenho".
+- Perguntas de enquadramento no MCMV: imóvel no nome, financiamento/subsídio anterior, restrição no CPF.
+- Validação de datas (18+), nomes, valores e renda líquida ≤ bruta.
+- Barra de progresso, seções que ficam ✓ ao completar, animações leves (respeitam "reduzir movimento").
+- Prévia do link no WhatsApp (Open Graph) e campo isca contra robôs.
 
-✅ **Campos Condicionais**: Exibe ou oculta campos de renda e data de nascimento do cônjuge baseado no Estado Civil.<br>
-✅ **Máscara de Moeda (BRL)**: Formatação automática enquanto o usuário digita valores de renda e FGTS.<br>
-✅ **Validação de Maioridade**: O sistema impede o prosseguimento se a data de nascimento indicar menos de 18 anos.<br>
-✅ **Tratamento de Erros**: Mensagens em tempo real caso o usuário digite números no nome ou datas inválidas.<br>
-✅ **Automação de Mensagem**: Monta um relatório completo e organizado para o WhatsApp, facilitando a leitura do consultor técnico.<br>
-✅ **Responsividade Total**: Interface adaptada para celulares, facilitando o uso pelo cliente final via link.
+## Tecnologias
 
-## 💻 Como utilizar
+HTML, CSS e JavaScript puros (sem frameworks) · Google Apps Script + Google Planilhas · GitHub Pages.
 
-Este é um projeto de front-end estático. Para testar:
-
-1. Clone o repositório ou baixe os arquivos.
-2. Abra o arquivo `index.html` em qualquer navegador.
-3. Preencha os dados e clique em "Enviar Dados" para ver a mensagem sendo formatada.
-
-> **Nota**: No arquivo `script.js`, a URL do WhatsApp está configurada para um número específico. Você pode alterá-lo na linha final da função de envio.
-
-## 📸 Demonstração
-
-### Interface do Simulador
-<p align="center">
-<img width="927" height="878" alt="Image" src="https://github.com/user-attachments/assets/60366693-fbd6-4d99-9fb9-14c7642c6273" />
-<img width="927" height="878" alt="Image" src="https://github.com/user-attachments/assets/5d8db4ac-6387-4118-949d-322f5b1687f7" />
-</p>
-
----
-*Este projeto é um exemplo real de como a tecnologia pode ser aplicada para resolver gargalos de produtividade em vendas.*
+Detalhes de estrutura e de como adicionar perguntas: ver `CLAUDE.md`. Publicação do Apps Script: ver `instruções.md`.

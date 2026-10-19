@@ -2,130 +2,142 @@
    TOKENS
 ============================================ */
 :root {
-  /* Força os controles nativos (select, date picker) a renderizarem no
-     estilo claro, mesmo com o celular no Modo Escuro. Sem isso, o iOS
-     Safari pode desenhar o menu do <select> com texto invisível
-     (texto branco em fundo branco), parecendo que o campo não abre. */
+  /* Força controles nativos no estilo claro, mesmo com o celular no Modo
+     Escuro (evita texto branco em fundo branco no iOS). */
   color-scheme: light;
 
   --cor-tinta: #16233d;
+  --cor-tinta-2: #223458;
   --cor-tinta-suave: #3d4a63;
-  --cor-ardosia: #5c6470;
-  --cor-papel: #fbf9f6;
+  --cor-ardosia: #646b77;
+  --cor-papel: #f6f3ee;
   --cor-cartao: #ffffff;
-  --cor-linha: #e3e0d8;
+  --cor-campo: #faf8f5;
+  --cor-linha: #e5e1d8;
   --cor-latao: #b4874b;
-  --cor-latao-escuro: #97703c;
+  --cor-latao-escuro: #8f6a37;
+  --cor-latao-fundo: rgba(180, 135, 75, 0.12);
   --cor-sucesso: #2f7d5c;
-  --cor-sucesso-fundo: #eaf4ee;
+  --cor-sucesso-fundo: #e7f3ec;
+  --cor-whatsapp: #1fa855;
   --cor-erro: #c0392b;
   --cor-erro-fundo: #fbeeec;
 
-  --fonte-titulo: "Fraunces", serif;
-  --fonte-texto: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-  --fonte-numero: "IBM Plex Mono", monospace;
+  --fonte-titulo: "Fraunces", Georgia, serif;
+  --fonte-texto: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --fonte-numero: "IBM Plex Mono", ui-monospace, monospace;
 
-  --raio: 10px;
-  --sombra: 0 8px 30px rgba(22, 35, 61, 0.08);
+  --raio-cartao: 18px;
+  --raio: 12px;
+  --sombra: 0 1px 2px rgba(22, 35, 61, 0.04), 0 8px 28px rgba(22, 35, 61, 0.07);
+  --foco: 0 0 0 4px rgba(180, 135, 75, 0.2);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-* {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html, body {
-  min-height: 100%;
-  color-scheme: light;
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   font-family: var(--fonte-texto);
   color: var(--cor-tinta);
-  background: var(--cor-papel);
+  background:
+    radial-gradient(120% 60% at 50% -10%, rgba(180, 135, 75, 0.16), transparent 60%),
+    var(--cor-papel);
+  background-attachment: fixed;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ============================================
+   PROGRESSO (fixo no topo)
+============================================ */
+.progresso {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 4px;
+  background: rgba(22, 35, 61, 0.06);
+  z-index: 50;
+}
+
+.progresso-preenchido {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--cor-latao), #d4a965);
+  border-radius: 0 4px 4px 0;
+  transition: width 0.5s var(--ease);
 }
 
 /* ============================================
    LAYOUT
 ============================================ */
 .pagina {
-  min-height: 100vh;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 24px 16px 8px;
-}
-
-.cartao {
   width: 100%;
-  max-width: 640px;
-  background: var(--cor-cartao);
-  border: 1px solid var(--cor-linha);
-  border-radius: var(--raio);
-  box-shadow: var(--sombra);
-  padding: 28px 20px 32px;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 36px 14px 8px;
 }
 
 .topo {
   text-align: center;
-  margin-bottom: 20px;
+  padding: 0 6px 22px;
 }
 
-.elogio {
+.selo {
+  display: inline-block;
   font-family: var(--fonte-numero);
-  font-size: 12px;
+  font-size: 11.5px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--cor-latao-escuro);
-  margin-bottom: 6px;
+  background: var(--cor-latao-fundo);
+  padding: 5px 12px;
+  border-radius: 999px;
+  margin-bottom: 14px;
 }
 
 h1 {
   font-family: var(--fonte-titulo);
   font-weight: 600;
-  font-size: 26px;
-  line-height: 1.25;
+  font-size: 28px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
   color: var(--cor-tinta);
 }
 
 .subtitulo {
-  margin-top: 10px;
+  margin: 10px auto 0;
+  max-width: 440px;
   font-size: 15px;
   color: var(--cor-ardosia);
 }
 
-/* ============================================
-   BARRA DE PROGRESSO
-============================================ */
-.progresso {
-  margin: 4px 0 20px;
+.vantagens {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 16px;
+  margin-top: 16px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--cor-tinta-suave);
 }
 
-.progresso-trilho {
-  height: 6px;
-  background: var(--cor-linha);
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.progresso-preenchido {
-  height: 100%;
-  width: 0%;
-  background: var(--cor-latao);
-  border-radius: 999px;
-  transition: width 0.35s ease;
-}
-
-.progresso-texto {
-  display: block;
-  margin-top: 6px;
-  font-family: var(--fonte-numero);
-  font-size: 12px;
-  color: var(--cor-ardosia);
-  text-align: right;
+.vantagens li::before {
+  content: "✓";
+  color: var(--cor-sucesso);
+  font-weight: 700;
+  margin-right: 5px;
 }
 
 /* ============================================
@@ -135,10 +147,11 @@ h1 {
   background: var(--cor-erro-fundo);
   color: var(--cor-erro);
   border: 1px solid rgba(192, 57, 43, 0.25);
-  border-radius: 8px;
+  border-radius: var(--raio);
   padding: 12px 14px;
   font-size: 14px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
+  scroll-margin-top: 20px;
 }
 
 .aviso-erro a {
@@ -146,155 +159,455 @@ h1 {
   font-weight: 600;
 }
 
+/* Campo isca contra robôs */
+.isca {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 /* ============================================
-   SEÇÕES DO FORMULÁRIO
+   SEÇÕES (cartões)
 ============================================ */
 .secao {
-  border: none;
-  padding: 0;
-  margin: 0 0 26px;
+  border: 1px solid var(--cor-linha);
+  background: var(--cor-cartao);
+  border-radius: var(--raio-cartao);
+  box-shadow: var(--sombra);
+  padding: 20px 16px 6px;
+  margin: 0 0 14px;
   min-width: 0;
 }
 
 .secao legend {
+  float: left;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-family: var(--fonte-titulo);
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 600;
   color: var(--cor-tinta);
-  padding-bottom: 8px;
-  margin-bottom: 14px;
-  border-bottom: 1px solid var(--cor-linha);
-  width: 100%;
+  margin-bottom: 18px;
+}
+
+.secao legend + * {
+  clear: both;
 }
 
 .numero {
+  flex: none;
+  position: relative;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
   font-family: var(--fonte-numero);
-  font-size: 12px;
+  font-size: 13px;
   color: var(--cor-latao-escuro);
-  margin-right: 8px;
+  background: var(--cor-latao-fundo);
+  transition: background-color 0.3s, color 0.3s;
 }
 
+/* Seção completa: número vira ✓ verde */
+.secao.completa .numero {
+  background: var(--cor-sucesso);
+  color: transparent;
+}
+
+.secao.completa .numero::after {
+  content: "✓";
+  position: absolute;
+  color: #fff;
+  font-family: var(--fonte-texto);
+  font-weight: 700;
+  font-size: 14px;
+  animation: pop 0.35s var(--ease);
+}
+
+/* ============================================
+   CAMPOS
+============================================ */
 .campo {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  margin-bottom: 14px;
+  gap: 6px;
+  margin-bottom: 18px;
+  scroll-margin-top: 24px;
 }
 
-.linha {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-.linha .campo {
-  flex: 1;
-}
-
-label {
-  font-size: 13.5px;
+label,
+.rotulo {
+  font-size: 14px;
   font-weight: 600;
   color: var(--cor-tinta-suave);
+  line-height: 1.35;
+}
+
+label em {
+  font-style: normal;
+  font-weight: 400;
+  color: var(--cor-ardosia);
 }
 
 .dica {
-  font-size: 12px;
+  font-size: 12.5px;
   color: var(--cor-ardosia);
   margin-top: -3px;
 }
 
-input, select, textarea {
+.dica strong {
+  font-weight: 600;
+  color: var(--cor-tinta-suave);
+}
+
+input[type="text"],
+textarea,
+.moeda {
+  width: 100%;
   font-family: var(--fonte-texto);
-  padding: 12px 12px;
-  border: 1px solid var(--cor-linha);
-  border-radius: 8px;
-  font-size: 16px;
-  background: var(--cor-papel);
+  font-size: 16px; /* 16px evita zoom automático no iPhone */
   color: var(--cor-tinta);
-  min-height: 46px;
+  background: var(--cor-campo);
+  border: 1.5px solid var(--cor-linha);
+  border-radius: var(--raio);
+  min-height: 50px;
+  padding: 12px 14px;
+  transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #a3a7ae;
 }
 
 textarea {
-  min-height: 90px;
+  min-height: 92px;
   resize: vertical;
 }
 
-input:focus, select:focus, textarea:focus {
+input[type="text"]:focus,
+textarea:focus,
+.moeda:focus-within {
   outline: none;
   border-color: var(--cor-latao);
-  box-shadow: 0 0 0 3px rgba(180, 135, 75, 0.18);
+  background: #fff;
+  box-shadow: var(--foco);
 }
 
-input.campo-invalido, select.campo-invalido {
+/* Campo de moeda com "R$" fixo */
+.moeda {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px;
+}
+
+.moeda span {
+  font-family: var(--fonte-numero);
+  font-size: 14px;
+  color: var(--cor-ardosia);
+}
+
+.moeda input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  padding: 12px 0;
+  min-height: 46px;
+}
+
+.moeda input:focus {
+  box-shadow: none;
+  background: transparent;
+}
+
+.moeda.desativada {
+  opacity: 0.45;
+}
+
+/* Caixinha "Não sei" */
+.marcar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--cor-tinta-suave);
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.marcar input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--cor-tinta);
+}
+
+/* ============================================
+   OPÇÕES EM BOTÕES (substituem os selects)
+============================================ */
+.opcoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-radius: var(--raio);
+}
+
+.opcao {
+  position: relative;
+  flex: 0 1 auto;
+  cursor: pointer;
+}
+
+.opcoes.iguais .opcao {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.opcoes.iguais .opcao span {
+  padding: 10px 8px;
+}
+
+.opcao input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.opcao span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 46px;
+  padding: 10px 16px;
+  font-size: 15px;
+  font-weight: 500;
+  text-align: center;
+  white-space: nowrap;
+  color: var(--cor-tinta);
+  background: var(--cor-campo);
+  border: 1.5px solid var(--cor-linha);
+  border-radius: 999px;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s, transform 0.15s var(--ease);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.opcao:active span {
+  transform: scale(0.96);
+}
+
+.opcao input:focus-visible + span {
+  box-shadow: var(--foco);
+  border-color: var(--cor-latao);
+}
+
+.opcao input:checked + span {
+  background: var(--cor-tinta);
+  border-color: var(--cor-tinta);
+  color: #fff;
+}
+
+.opcao input:checked + span::before {
+  content: "✓";
+  font-weight: 700;
+  font-size: 13px;
+  animation: pop 0.3s var(--ease);
+}
+
+@media (hover: hover) {
+  .opcao:hover input:not(:checked) + span {
+    border-color: var(--cor-latao);
+    background: #fff;
+  }
+}
+
+/* ============================================
+   ERROS
+============================================ */
+.erro {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--cor-erro);
+}
+
+.erro:empty {
+  display: none;
+}
+
+.campo.invalido input[type="text"],
+.campo.invalido .moeda,
+.campo.invalido .opcao span {
   border-color: var(--cor-erro);
 }
 
-.erro {
-  font-size: 12.5px;
-  color: var(--cor-erro);
-  min-height: 15px;
+.campo.invalido .moeda input {
+  border: none;
 }
 
-/* Blocos condicionais (cônjuge, outra renda, IR) */
-.bloco-condicional {
-  background: var(--cor-papel);
-  border: 1px dashed var(--cor-linha);
-  border-radius: 8px;
-  padding: 14px 14px 2px;
-  margin: 4px 0 16px;
+.campo.tremer {
+  animation: tremer 0.4s;
 }
 
-.rotulo-bloco {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+/* ============================================
+   BLOCOS CONDICIONAIS (abrem/fecham com animação)
+============================================ */
+.condicional {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.4s var(--ease), opacity 0.3s;
+}
+
+.condicional-interno {
+  min-height: 0;
+  overflow: hidden;
+  /* respiro para o anel de foco não ser cortado */
+  padding: 4px;
+  margin: -4px;
+}
+
+.condicional.aberto {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.bloco {
+  background: var(--cor-campo);
+  border: 1px solid var(--cor-linha);
+  border-radius: 14px;
+  padding: 16px 14px 2px;
+  margin: 0 0 18px;
+}
+
+.bloco input[type="text"],
+.bloco .moeda,
+.bloco .opcao span {
+  background: #fff;
+}
+
+/* Totais da composição */
+.totais {
+  background: var(--cor-tinta);
+  color: #fff;
+  border-radius: var(--raio);
+  padding: 14px 16px;
+  margin-bottom: 16px;
+}
+
+.totais-titulo {
+  font-family: var(--fonte-numero);
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--cor-latao-escuro);
-  margin-bottom: 10px;
+  color: #d4a965;
+  margin-bottom: 8px;
+}
+
+.totais-grade {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.totais-grade span {
+  display: block;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.totais-grade strong {
+  font-size: 18px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* "ou quem vai compor renda" só aparece se houver composição */
+.so-compor {
+  display: none;
+}
+
+.compondo .so-compor {
+  display: inline;
 }
 
 /* ============================================
    BOTÕES
 ============================================ */
 .botao {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 10px;
   width: 100%;
-  background: var(--cor-tinta);
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 15px;
-  font-size: 16px;
+  min-height: 56px;
+  margin-top: 6px;
+  padding: 16px;
+  font-family: var(--fonte-texto);
+  font-size: 16.5px;
   font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s, opacity 0.2s;
+  color: #fff;
   text-decoration: none;
-  min-height: 50px;
+  background: linear-gradient(180deg, var(--cor-tinta-2), var(--cor-tinta));
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(22, 35, 61, 0.25);
+  cursor: pointer;
+  transition: transform 0.2s var(--ease), box-shadow 0.2s, opacity 0.2s;
 }
 
-.botao:hover {
-  background: #223458;
+.botao:active {
+  transform: scale(0.98);
+}
+
+@media (hover: hover) {
+  .botao:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 26px rgba(22, 35, 61, 0.3);
+  }
 }
 
 .botao:disabled {
-  opacity: 0.65;
-  cursor: not-allowed;
+  opacity: 0.75;
+  cursor: wait;
+  transform: none;
 }
 
-.botao-secundario {
-  background: var(--cor-sucesso);
-  margin-top: 22px;
+.giro {
+  display: none;
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: girar 0.8s linear infinite;
 }
 
-.botao-secundario:hover {
-  background: #256b4d;
+.botao.carregando .giro {
+  display: block;
+}
+
+.botao-whatsapp {
+  background: linear-gradient(180deg, #25c062, var(--cor-whatsapp));
+  box-shadow: 0 8px 20px rgba(31, 168, 85, 0.3);
+  margin-top: 26px;
 }
 
 .privacidade {
   text-align: center;
-  font-size: 12px;
+  font-size: 12.5px;
   color: var(--cor-ardosia);
   margin-top: 14px;
 }
@@ -304,20 +617,40 @@ input.campo-invalido, select.campo-invalido {
 ============================================ */
 .tela-sucesso {
   text-align: center;
+  background: var(--cor-cartao);
+  border: 1px solid var(--cor-linha);
+  border-radius: var(--raio-cartao);
+  box-shadow: var(--sombra);
+  padding: 40px 22px 32px;
+  margin-top: 8vh;
+  animation: subir 0.6s var(--ease);
 }
 
 .icone-sucesso {
-  width: 56px;
-  height: 56px;
-  margin: 0 auto 16px;
-  border-radius: 50%;
-  background: var(--cor-sucesso-fundo);
-  color: var(--cor-sucesso);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 26px;
-  font-weight: 700;
+  width: 76px;
+  height: 76px;
+  margin: 0 auto 20px;
+  display: block;
+}
+
+.icone-sucesso circle {
+  fill: var(--cor-sucesso-fundo);
+  stroke: var(--cor-sucesso);
+  stroke-width: 2.5;
+  stroke-dasharray: 151;
+  stroke-dashoffset: 151;
+  animation: desenhar 0.7s var(--ease) forwards;
+}
+
+.icone-sucesso path {
+  fill: none;
+  stroke: var(--cor-sucesso);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+  animation: desenhar 0.45s 0.55s var(--ease) forwards;
 }
 
 /* ============================================
@@ -325,12 +658,53 @@ input.campo-invalido, select.campo-invalido {
 ============================================ */
 footer {
   text-align: center;
-  padding: 16px 12px 24px;
+  padding: 22px 12px calc(28px + env(safe-area-inset-bottom));
+  font-size: 12px;
+  color: var(--cor-ardosia);
 }
 
-footer p {
-  font-size: 11.5px;
-  color: var(--cor-ardosia);
+footer p + p {
+  margin-top: 2px;
+  opacity: 0.8;
+}
+
+/* ============================================
+   ANIMAÇÕES
+============================================ */
+/* Seções surgem ao rolar (só quando o JS está ativo) */
+.js .surgir {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+}
+
+.js .surgir.visivel {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes pop {
+  0% { transform: scale(0.4); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes tremer {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+@keyframes girar {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes desenhar {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes subir {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: none; }
 }
 
 /* ============================================
@@ -338,26 +712,35 @@ footer p {
 ============================================ */
 @media (min-width: 640px) {
   .pagina {
-    padding: 48px 16px;
-  }
-
-  .cartao {
-    padding: 40px 44px 44px;
+    padding-top: 64px;
   }
 
   h1 {
-    font-size: 30px;
+    font-size: 34px;
   }
 
-  .linha {
-    flex-direction: row;
-    gap: 14px;
+  .secao {
+    padding: 28px 28px 10px;
+    margin-bottom: 18px;
+  }
+
+  .bloco {
+    padding: 20px 20px 4px;
   }
 }
 
 /* Respeita preferência por menos animação */
 @media (prefers-reduced-motion: reduce) {
-  * {
-    transition: none !important;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .js .surgir {
+    opacity: 1;
+    transform: none;
   }
 }

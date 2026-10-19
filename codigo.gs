@@ -1,129 +1,113 @@
 // =====================================================================
 // CONFIGURAÇÃO
 // =====================================================================
-// Nome da aba onde as respostas serão salvas
-const NOME_ABA = 'Respostas';
+// Aba onde as respostas são salvas. As colunas são criadas sozinhas a partir
+// dos campos do formulário: se um campo novo aparecer, vira coluna nova no fim.
+const NOME_ABA = 'Respostas v2';
 
-// Ordem das colunas na planilha (a primeira linha vira o cabeçalho).
-// IMPORTANTE: a ordem aqui é a mesma ordem em que os dados são gravados.
-const CABECALHO = [
-  'Data/hora',
-  'Nome',
-  'Data de nascimento',
-  'Estado civil',
-  'Nome do cônjuge',
-  'Nascimento do cônjuge',
-  'Cônjuge tem renda comprovada',
-  'Renda do cônjuge',
-  'FGTS do cônjuge',
-  'Possui filhos menores de 18',
-  'Profissão',
-  'Tipo de renda',
-  'Outro tipo de renda',
-  'Declarou IR',
-  'Tempo no serviço atual',
-  'Mais de 3 anos somando carteiras',
-  'Renda bruta mensal',
-  'FGTS',
-  'Cidade (mora e trabalha)',
-  'Possui imóvel com escritura',
-  'Observação'
-];
+// E-mail que recebe o resumo de cada simulação.
+// Vazio = e-mail da conta dona do script.
+const EMAIL_DESTINO = '';
 
 // =====================================================================
-// doPost — ÚNICA responsabilidade: acrescentar uma linha na planilha.
-// Nunca reescreve fórmulas ou faz setup aqui — isso é o que causava o bug
-// de formulário sobrescrevendo a planilha no projeto do chá de bebê.
+// doPost — grava uma linha na planilha e envia o resumo por e-mail.
+// Nunca reescreve fórmulas ou faz setup da planilha aqui.
 // =====================================================================
 function doPost(e) {
   try {
     const dados = JSON.parse(e.postData.contents);
-    const planilha = SpreadsheetApp.getActiveSpreadsheet();
-    let aba = planilha.getSheetByName(NOME_ABA);
 
-    if (!aba) {
-      aba = planilha.insertSheet(NOME_ABA);
+    // Campo isca preenchido = robô. Responde "sucesso" e não grava nada.
+    if (dados.website) return resposta({ status: 'sucesso' });
+
+    salvarNaPlanilha(dados);
+
+    // Se o e-mail falhar, a linha já está salva: não devolve erro ao cliente.
+    try {
+      enviarEmail(dados);
+    } catch (erroEmail) {
+      console.error('Falha ao enviar e-mail: ' + erroEmail.message);
     }
 
-    // Escreve o cabeçalho só se a aba estiver vazia (primeira execução)
-    if (aba.getLastRow() === 0) {
-      aba.appendRow(CABECALHO);
-      aba.getRange(1, 1, 1, CABECALHO.length).setFontWeight('bold');
-    }
-
-    const linha = [
-      new Date(),
-      dados.nome || '',
-      dados.data_nascimento || '',
-      formatarEstadoCivil(dados.estado_civil),
-      dados.nome_conjuge || '',
-      dados.data_nascimento_conjuge || '',
-      dados.renda_conjuge === 'sim' ? 'Sim' : (dados.renda_conjuge === 'nao' ? 'Não' : ''),
-      dados.valor_renda_conjuge || '',
-      dados.fgts_conjuge || '',
-      dados.filhos === 'sim' ? 'Sim' : (dados.filhos === 'nao' ? 'Não' : ''),
-      dados.profissao || '',
-      formatarTipoRenda(dados.tipo_renda),
-      dados.outro_renda || '',
-      dados.declarou_ir === 'sim' ? 'Sim' : (dados.declarou_ir === 'nao' ? 'Não' : ''),
-      dados.tempo_servico_atual || '',
-      dados.tempo_carteira_total === 'sim' ? 'Sim' : (dados.tempo_carteira_total === 'nao' ? 'Não' : ''),
-      dados.renda_pessoal || '',
-      dados.fgts || '',
-      dados.residencia || '',
-      dados.imovel === 'sim' ? 'Sim' : (dados.imovel === 'nao' ? 'Não' : ''),
-      dados.observacao || ''
-    ];
-
-    aba.appendRow(linha);
-
-    return ContentService
-      .createTextOutput(JSON.stringify({ status: 'sucesso' }))
-      .setMimeType(ContentService.MimeType.JSON);
+    return resposta({ status: 'sucesso' });
 
   } catch (erro) {
-    return ContentService
-      .createTextOutput(JSON.stringify({ status: 'erro', mensagem: erro.message }))
-      .setMimeType(ContentService.MimeType.JSON);
+    return resposta({ status: 'erro', mensagem: erro.message });
   }
 }
 
-function formatarEstadoCivil(valor) {
-  const mapa = {
-    solteiro: 'Solteiro(a)',
-    casado: 'Casado(a)',
-    uniao_estavel: 'União estável',
-    divorciado: 'Divorciado(a)',
-    viuvo: 'Viúvo(a)'
-  };
-  return mapa[valor] || valor || '';
-}
-
-function formatarTipoRenda(valor) {
-  const mapa = {
-    assalariado: 'Carteira assinada',
-    concursado: 'Concursado(a)',
-    dt: 'DT',
-    autonomo: 'Autônomo',
-    empresario: 'Empresário',
-    pensionista: 'Pensionista',
-    aposentado: 'Aposentado',
-    outro: 'Outro'
-  };
-  return mapa[valor] || valor || '';
+function resposta(objeto) {
+  return ContentService
+    .createTextOutput(JSON.stringify(objeto))
+    .setMimeType(ContentService.MimeType.JSON);
 }
 
 // =====================================================================
-// Teste opcional: rode esta função manualmente pelo editor do Apps Script
-// para conferir se o cabeçalho é criado corretamente, sem precisar
-// publicar o formulário ainda.
+// PLANILHA
 // =====================================================================
-function testeCriarCabecalho() {
-  const planilha = SpreadsheetApp.getActiveSpreadsheet();
-  let aba = planilha.getSheetByName(NOME_ABA);
-  if (!aba) aba = planilha.insertSheet(NOME_ABA);
-  if (aba.getLastRow() === 0) {
-    aba.appendRow(CABECALHO);
-    aba.getRange(1, 1, 1, CABECALHO.length).setFontWeight('bold');
+function salvarNaPlanilha(dados) {
+  const lock = LockService.getScriptLock();
+  lock.waitLock(20000);
+  try {
+    const planilha = SpreadsheetApp.getActiveSpreadsheet();
+    const aba = planilha.getSheetByName(NOME_ABA) || planilha.insertSheet(NOME_ABA);
+
+    // Cabeçalho atual + colunas novas que ainda não existem
+    let cabecalho = aba.getLastColumn() > 0
+      ? aba.getRange(1, 1, 1, aba.getLastColumn()).getValues()[0]
+      : ['Data/hora'];
+    const campos = (dados.campos || []).map(function (c) {
+      return { coluna: String(c.coluna || ''), valor: String(c.valor || '') };
+    });
+    campos.forEach(function (c) {
+      if (c.coluna && cabecalho.indexOf(c.coluna) === -1) cabecalho.push(c.coluna);
+    });
+    aba.getRange(1, 1, 1, cabecalho.length).setValues([cabecalho]).setFontWeight('bold');
+    aba.setFrozenRows(1);
+
+    const linha = cabecalho.map(function () { return ''; });
+    linha[0] = new Date();
+    campos.forEach(function (c) {
+      const i = cabecalho.indexOf(c.coluna);
+      if (i > 0) linha[i] = protegerTexto(c.valor);
+    });
+    aba.appendRow(linha);
+  } finally {
+    lock.releaseLock();
   }
+}
+
+// Impede que um texto vire fórmula (=, +, -, @) e que datas mudem de formato.
+function protegerTexto(valor) {
+  if (/^[=+\-@]/.test(valor) || /^\d{2}\/\d{2}\/\d{4}/.test(valor)) return "'" + valor;
+  return valor;
+}
+
+// =====================================================================
+// E-MAIL (texto pronto para fazer a simulação)
+// =====================================================================
+function enviarEmail(dados) {
+  const destino = EMAIL_DESTINO || Session.getEffectiveUser().getEmail();
+  const quando = Utilities.formatDate(new Date(), 'America/Sao_Paulo', "dd/MM/yyyy 'às' HH:mm");
+  const assunto = 'Simulação: ' + (dados.nome || 'sem nome') +
+    (dados.rendaBrutaTotal ? ' — renda bruta ' + dados.rendaBrutaTotal : '');
+  const corpo = (dados.resumo || JSON.stringify(dados, null, 2)) +
+    '\n\n—\nRecebido em ' + quando + ' pelo formulário de simulação.';
+
+  MailApp.sendEmail({ to: destino, subject: assunto, body: corpo });
+}
+
+// =====================================================================
+// TESTE: rode pelo editor (menu de funções → testeEnvio) para autorizar
+// o envio de e-mail e conferir se a linha e o e-mail chegam.
+// =====================================================================
+function testeEnvio() {
+  const dados = {
+    nome: 'Cliente Teste',
+    rendaBrutaTotal: 'R$ 5.000,00',
+    resumo: 'NOVA SIMULAÇÃO — Cliente Teste\n\nDADOS PESSOAIS\nNome: Cliente Teste\n\n(teste disparado pelo editor do Apps Script)',
+    campos: [{ coluna: 'Nome', valor: 'Cliente Teste' }]
+  };
+  salvarNaPlanilha(dados);
+  enviarEmail(dados);
 }
