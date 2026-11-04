@@ -21,6 +21,8 @@ const linkWhatsapp = document.getElementById('link-whatsapp');
 const barraProgresso = document.getElementById('barra-progresso');
 
 const CASADO = ['casado', 'uniao_estavel'];
+// Casado no civil: pelo MCMV o cônjuge entra obrigatoriamente no processo
+const CASADO_CIVIL = 'casado';
 
 // =====================================================================
 // UTILITÁRIOS
@@ -145,6 +147,16 @@ function limparBloco(bloco) {
 }
 
 function atualizarCondicionais() {
+  // Casado no civil: composição com o cônjuge é obrigatória (marca "Sim" e esconde a escolha)
+  const casadoCivil = valorOpcao('estado_civil') === CASADO_CIVIL;
+  if (casadoCivil) form.querySelector('input[name="compor_renda"][value="sim"]').checked = true;
+  document.getElementById('rotulo-compor').closest('.campo').classList.toggle('compor-obrigatorio', casadoCivil);
+
+  // "Sem renda" só existe para o cônjuge de quem é casado no civil
+  const semRenda = form.querySelector('input[name="comp_tipo_renda"][value="sem_renda"]');
+  semRenda.closest('.opcao').style.display = casadoCivil ? '' : 'none';
+  if (!casadoCivil) semRenda.checked = false;
+
   // Repete até estabilizar (um bloco pode depender de outro)
   for (let passada = 0; passada < 3; passada++) {
     let mudou = false;
@@ -163,9 +175,14 @@ function atualizarCondicionais() {
 
   // Textos que mudam quando a pessoa é casada / está compondo renda
   const casado = CASADO.includes(valorOpcao('estado_civil'));
-  document.getElementById('rotulo-compor').textContent = casado
-    ? 'Seu cônjuge vai somar renda com você para financiar?'
-    : 'Vai somar renda com outra pessoa para financiar?';
+  document.getElementById('rotulo-compor').textContent = casadoCivil
+    ? 'Seu cônjuge entra junto no financiamento'
+    : casado
+      ? 'Seu cônjuge vai somar renda com você para financiar?'
+      : 'Vai somar renda com outra pessoa para financiar?';
+  document.getElementById('dica-compor').textContent = casadoCivil
+    ? 'Pelo Minha Casa Minha Vida, quem é casado(a) no civil entra no processo junto com o cônjuge, mesmo que ele(a) não tenha renda. Preencha os dados dele(a) abaixo.'
+    : 'Ex.: cônjuge, pai, mãe ou irmão. Somar rendas aumenta o valor que pode ser financiado.';
   document.getElementById('rotulo-comp-nome').textContent = casado
     ? 'Nome completo do cônjuge'
     : 'Nome completo da pessoa';

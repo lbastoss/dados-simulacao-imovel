@@ -171,7 +171,7 @@
 
           <div class="campo" data-req data-resumo="Vai compor renda">
             <span class="rotulo" id="rotulo-compor">Vai somar renda com outra pessoa para financiar?</span>
-            <span class="dica">Ex.: cônjuge, pai, mãe ou irmão. Somar rendas aumenta o valor que pode ser
+            <span class="dica" id="dica-compor">Ex.: cônjuge, pai, mãe ou irmão. Somar rendas aumenta o valor que pode ser
               financiado.</span>
             <div class="opcoes" data-name="compor_renda" data-opcoes="sim:Sim|nao:Não"></div>
             <span class="erro"></span>
@@ -206,7 +206,7 @@
               <div class="campo" data-req data-resumo="Tipo de renda">
                 <span class="rotulo">Tipo de renda</span>
                 <div class="opcoes" data-name="comp_tipo_renda"
-                  data-opcoes="assalariado:Carteira assinada|concursado:Concursado(a)|dt:DT|autonomo:Autônomo|empresario:Empresário|aposentado:Aposentado|pensionista:Pensionista|outro:Outro">
+                  data-opcoes="assalariado:Carteira assinada|concursado:Concursado(a)|dt:DT|autonomo:Autônomo|empresario:Empresário|aposentado:Aposentado|pensionista:Pensionista|outro:Outro|sem_renda:Sem renda">
                 </div>
                 <span class="erro"></span>
               </div>
@@ -217,20 +217,23 @@
                 <span class="erro"></span>
               </div>
 
-              <div class="campo" data-req data-resumo="Renda bruta" data-tipo="moeda" data-soma="bruta">
-                <label for="comp_renda_bruta">Renda bruta mensal</label>
-                <span class="dica">Maior valor do contracheque, <strong>antes</strong> dos descontos</span>
-                <div class="moeda"><span>R$</span><input type="text" inputmode="numeric" id="comp_renda_bruta"
-                    name="comp_renda_bruta" placeholder="0,00" /></div>
-                <span class="erro"></span>
-              </div>
+              <!-- Cônjuge sem renda (só casado no civil) não informa renda -->
+              <div class="condicional" data-mostrar="comp_tipo_renda=assalariado,concursado,dt,autonomo,empresario,aposentado,pensionista,outro">
+                <div class="campo" data-req data-resumo="Renda bruta" data-tipo="moeda" data-soma="bruta">
+                  <label for="comp_renda_bruta">Renda bruta mensal</label>
+                  <span class="dica">Maior valor do contracheque, <strong>antes</strong> dos descontos</span>
+                  <div class="moeda"><span>R$</span><input type="text" inputmode="numeric" id="comp_renda_bruta"
+                      name="comp_renda_bruta" placeholder="0,00" /></div>
+                  <span class="erro"></span>
+                </div>
 
-              <div class="campo" data-req data-resumo="Renda líquida" data-tipo="moeda" data-soma="liquida">
-                <label for="comp_renda_liquida">Renda líquida mensal</label>
-                <span class="dica">Valor que cai na conta, <strong>depois</strong> dos descontos</span>
-                <div class="moeda"><span>R$</span><input type="text" inputmode="numeric" id="comp_renda_liquida"
-                    name="comp_renda_liquida" placeholder="0,00" /></div>
-                <span class="erro"></span>
+                <div class="campo" data-req data-resumo="Renda líquida" data-tipo="moeda" data-soma="liquida">
+                  <label for="comp_renda_liquida">Renda líquida mensal</label>
+                  <span class="dica">Valor que cai na conta, <strong>depois</strong> dos descontos</span>
+                  <div class="moeda"><span>R$</span><input type="text" inputmode="numeric" id="comp_renda_liquida"
+                      name="comp_renda_liquida" placeholder="0,00" /></div>
+                  <span class="erro"></span>
+                </div>
               </div>
 
               <div class="campo" data-req data-resumo="FGTS" data-tipo="moeda" data-soma="fgts">
