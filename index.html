@@ -117,7 +117,7 @@
             </div>
           </div>
 
-          <div class="condicional" data-mostrar="tipo_renda=autonomo,empresario">
+          <div class="condicional" data-mostrar="tipo_renda=autonomo,empresario,outro">
             <div class="campo" data-req data-resumo="Declarou IR este ano">
               <span class="rotulo">Você declarou imposto de renda este ano?</span>
               <div class="opcoes" data-name="declarou_ir" data-opcoes="sim:Sim|nao:Não"></div>
@@ -209,6 +209,14 @@
                   data-opcoes="assalariado:Carteira assinada|concursado:Concursado(a)|dt:DT|autonomo:Autônomo|empresario:Empresário|aposentado:Aposentado|pensionista:Pensionista|outro:Outro|sem_renda:Sem renda">
                 </div>
                 <span class="erro"></span>
+              </div>
+
+              <div class="condicional" data-mostrar="comp_tipo_renda=autonomo,empresario,outro">
+                <div class="campo" data-req data-resumo="Declarou IR este ano">
+                  <span class="rotulo">Essa pessoa declarou imposto de renda este ano?</span>
+                  <div class="opcoes" data-name="comp_declarou_ir" data-opcoes="sim:Sim|nao:Não"></div>
+                  <span class="erro"></span>
+                </div>
               </div>
 
               <div class="campo" data-req data-resumo="Mais de 3 anos de carteira (somando)">
