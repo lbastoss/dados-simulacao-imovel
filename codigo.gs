@@ -7,7 +7,7 @@ const NOME_ABA = 'Respostas v2';
 
 // E-mail que recebe o resumo de cada simulação.
 // Vazio = e-mail da conta dona do script.
-const EMAIL_DESTINO = '';
+const EMAIL_DESTINO = 'lucasbastos.corretor@gmail.com';
 
 // =====================================================================
 // doPost — grava uma linha na planilha e envia o resumo por e-mail.
