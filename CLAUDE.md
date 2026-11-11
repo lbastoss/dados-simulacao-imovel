@@ -10,6 +10,7 @@ uma linha na planilha e envia um e-mail em texto para o Lucas.
   - `data-tipo="data" | "moeda"`; `data-soma="bruta" | "liquida" | "fgts"` entra nos totais da composição.
   - Botões de opção: `<div class="opcoes" data-name="campo" data-opcoes="valor:Rótulo|valor:Rótulo">` (o JS gera os radios).
   - Bloco condicional: `<div class="condicional" data-mostrar="campo=valor1,valor2">`.
+  - Condição com mais de um campo: `<div class="condicional" data-regra="nome">` + função `nome` em `REGRAS` (script.js).
   - Caixinha "Não sei": `<input type="checkbox" data-alternativa="Não sei">` dentro do campo de moeda.
 - `script.js` — máscaras, condicionais, validação, progresso, montagem do resumo e envio.
 - `styles.css` — mobile-first; tokens de cor no `:root`.

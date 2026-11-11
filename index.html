@@ -203,6 +203,15 @@
                 <span class="erro"></span>
               </div>
 
+              <div class="condicional" data-regra="compComRenda">
+                <div class="campo" data-req data-resumo="Profissão">
+                  <label for="comp_profissao">Qual a profissão dessa pessoa?</label>
+                  <input type="text" id="comp_profissao" name="comp_profissao" placeholder="Ex: Auxiliar administrativo"
+                    autocomplete="off" />
+                  <span class="erro"></span>
+                </div>
+              </div>
+
               <div class="campo" data-req data-resumo="Tipo de renda">
                 <span class="rotulo">Tipo de renda</span>
                 <div class="opcoes" data-name="comp_tipo_renda"
@@ -211,7 +220,7 @@
                 <span class="erro"></span>
               </div>
 
-              <div class="condicional" data-mostrar="comp_tipo_renda=autonomo,empresario,outro">
+              <div class="condicional" data-regra="compIR">
                 <div class="campo" data-req data-resumo="Declarou IR este ano">
                   <span class="rotulo">Essa pessoa declarou imposto de renda este ano?</span>
                   <div class="opcoes" data-name="comp_declarou_ir" data-opcoes="sim:Sim|nao:Não"></div>

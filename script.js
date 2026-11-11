@@ -146,6 +146,18 @@ function limparBloco(bloco) {
   $$('.campo', bloco).forEach(limparErro);
 }
 
+// Regras de exibição que dependem de mais de um campo (data-regra="nome")
+const REGRAS = {
+  // Profissão de quem compõe: some quando o cônjuge marca "Sem renda"
+  compComRenda: () => valorOpcao('comp_tipo_renda') !== 'sem_renda',
+  // IR de quem compõe: cônjuge com renda sempre; outras pessoas só autônomo, empresário e outro
+  compIR: () => {
+    const tipo = valorOpcao('comp_tipo_renda');
+    if (CASADO.includes(valorOpcao('estado_civil'))) return !!tipo && tipo !== 'sem_renda';
+    return ['autonomo', 'empresario', 'outro'].includes(tipo);
+  }
+};
+
 function atualizarCondicionais() {
   // Casado no civil: composição com o cônjuge é obrigatória (marca "Sim" e esconde a escolha)
   const casadoCivil = valorOpcao('estado_civil') === CASADO_CIVIL;
@@ -161,8 +173,13 @@ function atualizarCondicionais() {
   for (let passada = 0; passada < 3; passada++) {
     let mudou = false;
     $$('.condicional').forEach((bloco) => {
-      const [nome, valores] = bloco.dataset.mostrar.split('=');
-      const abrir = valores.split(',').includes(valorOpcao(nome));
+      let abrir;
+      if (bloco.dataset.regra) {
+        abrir = REGRAS[bloco.dataset.regra]();
+      } else {
+        const [nome, valores] = bloco.dataset.mostrar.split('=');
+        abrir = valores.split(',').includes(valorOpcao(nome));
+      }
       if (abrir !== bloco.classList.contains('aberto')) {
         bloco.classList.toggle('aberto', abrir);
         bloco.inert = !abrir;
